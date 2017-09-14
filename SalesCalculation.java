@@ -16,6 +16,7 @@ public class SalesCalculation {
 		int a = args.length;
 		if(a != 1){
 			System.out.println("予期せぬエラーが発生しました");
+			return;
 		}
 
 		File branchFile = new File(args[0] +File.separator+ "branch.lst");
@@ -42,16 +43,19 @@ public class SalesCalculation {
 				map2.put(item1[0], (long)0);
 				} else {
 					System.out.println("支店定義ファイルのフォーマットが不正です");
+					return;
 				}
 			}
 		} catch (IOException e) {
 			System.out.println("予期せぬエラーが発生しました");
+			return;
 		} finally{
 			if (br != null){
 	            try {
 	                br.close();
 	            } catch (IOException e) {
 	                System.out.println("予期せぬエラーが発生しました");
+	                return;
 	            }
 			}
 		}
@@ -77,16 +81,19 @@ public class SalesCalculation {
 				map4.put(item2[0], (long)0);
 				} else{
 					System.out.println("商品定義ファイルのフォーマットが不正です");
+					return;
 				}
 			}
 		} catch (IOException e) {
 			System.out.println("商品定義ファイルのフォーマットが不正です");
+			return;
 		} finally{
 			if (br != null){
 	            try {
 	                br.close();
 	            } catch (IOException e) {
 	                System.out.println("予期せぬエラーが発生しました");
+	                return;
 	            }
 			}
 		}
@@ -112,6 +119,7 @@ public class SalesCalculation {
 
 			if(salesNumber2 - salesNumber != 1){
 				System.out.println("売上げファイルが連番になっていません");
+				return;
 			}
 
 		}
@@ -135,9 +143,11 @@ public class SalesCalculation {
 					salesArray.add(line);
 					if(!map1.containsKey(salesArray.get(0))){
 						System.out.println(rcdFiles.get(i) + "の支店コードが不正です");
+						return;
 					}
 					if(!map3.containsKey(salesArray.get(1))){
 						System.out.println(rcdFiles.get(i) + "の支店コードが不正です");
+						return;
 					}
 
 					//}
@@ -151,12 +161,14 @@ public class SalesCalculation {
 
 			} catch(IOException e) {
 				System.out.println("予期せぬエラーが発生しました");
+				return;
 			} finally{
 				if (br != null){
 		            try {
 		                br.close();
 		            } catch (IOException e) {
 		            	System.out.println("予期せぬエラーが発生しました");
+		            	return;
 		            }
 				}
 			}
@@ -179,7 +191,7 @@ public class SalesCalculation {
 			String ms2 = String.valueOf(m2);
 
 			//商品別集計合計金額が10桁を越えた場合の処理
-			if(ms2.matches("[0-9]{10}")){
+			if(ms2.matches("[0-9]{11}")){
 				System.out.println("合計金額が10桁を超えました");
 				return;
 			}
@@ -213,12 +225,14 @@ public class SalesCalculation {
 				}
 			} catch (IOException e) {
 				System.out.println("予期せぬエラーが発生しました");
+				return;
 			} finally{
 				if (bw != null){
 		            try {
 		                bw.close();
 		            } catch (IOException e) {
 		            	System.out.println("予期せぬエラーが発生しました");
+		            	return;
 		            }
 				}
 				if (fw != null){
@@ -226,6 +240,7 @@ public class SalesCalculation {
 		                fw.close();
 		            } catch (IOException e) {
 		            	System.out.println("予期せぬエラーが発生しました");
+		            	return;
 		            }
 				}
 			}
@@ -254,6 +269,7 @@ public class SalesCalculation {
 				}
 			} catch (IOException e) {
 				System.out.println("予期せぬエラーが発生しました");
+				return;
 			} finally {
 				if (bw != null){
 		            try {
@@ -267,6 +283,7 @@ public class SalesCalculation {
 		                fw.close();
 		            } catch (IOException e) {
 		            	System.out.println("予期せぬエラーが発生しました");
+		            	return;
 		            }
 				}
 			}
