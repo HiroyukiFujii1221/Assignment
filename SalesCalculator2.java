@@ -142,14 +142,6 @@ public class SalesCalculator2 {
 				while(counter < 3){
 					line = br.readLine();
 					salesArray.add(line);
-					if(!map1.containsKey(salesArray.get(0))){
-						System.out.println(rcdFiles.get(i) + "の支店コードが不正です");
-						return;
-					}
-					if(!map3.containsKey(salesArray.get(1))){
-						System.out.println(rcdFiles.get(i) + "の支店コードが不正です");
-						return;
-					}
 
 					//}
 					counter++;
@@ -158,6 +150,14 @@ public class SalesCalculator2 {
 						System.out.print(rcdFiles.get(i) + "のフォーマットが不正です");
 						return;
 					}
+				}
+				if(!map1.containsKey(salesArray.get(0))){
+					System.out.println(rcdFiles.get(i) + "の支店コードが不正です");
+					return;
+				}
+				if(!map3.containsKey(salesArray.get(1))){
+					System.out.println(rcdFiles.get(i) + "の支店コードが不正です");
+					return;
 				}
 
 			} catch(IOException e) {
