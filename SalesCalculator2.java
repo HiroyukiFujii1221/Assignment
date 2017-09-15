@@ -128,12 +128,16 @@ public class SalesCalculator2 {
 		HashMap<String, String> map1 = new HashMap<String, String>();
 		HashMap<String, Long> map2 = new HashMap<String, Long>();
 
-		fileRead(args[0], map1, map2, "[0-9]{3}", "branch.lst", "支店");
+		if(!fileRead(args[0], map1, map2, "[0-9]{3}", "branch.lst", "支店")){
+			return;
+		};
 
 		HashMap<String, String> map3 = new HashMap<String, String>();
 		HashMap<String, Long> map4 = new HashMap<String, Long>();
 
-		fileRead(args[0], map3, map4, "[a-zA-Z0-9]{8}", "commodity.lst", "商品");
+		if(!fileRead(args[0], map3, map4, "[a-zA-Z0-9]{8}", "commodity.lst", "商品")){
+			return;
+		};
 
 		// 指定した条件に合致する売上げファイルのみを取り出す
 		File dir = new File(args[0]);
@@ -236,10 +240,14 @@ public class SalesCalculator2 {
 			map4.put(salesArray.get(1), m2);
 		}
 		// 支店別集計ファイルの作成
-		fileWrite(args[0], map1, map2, "branch.out");
+		if(!fileWrite(args[0], map1, map2, "branch.out")){
+			return;
+		};
 
 		// 商品別集計ファイルの作成
-		fileWrite(args[0], map3, map4, "commodity.out");
+		if(!fileWrite(args[0], map3, map4, "commodity.out")){
+			return;
+		};
 
 	}
 }
