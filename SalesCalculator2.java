@@ -20,8 +20,9 @@ public class SalesCalculator2 {
 			return;
 		}
 
-		File branchFile = new File(args[0] +File.separator+ "branch.lst");
-			if(!branchFile.exists()) {
+		File FileRead;
+		FileRead= new File(args[0] +File.separator+ "branch.lst");
+			if(!FileRead.exists()) {
 				System.out.println("支店定義ファイルが存在しません");
 				return;
 			}
@@ -33,7 +34,7 @@ public class SalesCalculator2 {
 		BufferedReader br = null;
 
 		try{
-			fr = new FileReader(branchFile);
+			fr = new FileReader(FileRead);
 			br = new BufferedReader(fr);
 			String branch;
 
@@ -66,8 +67,8 @@ public class SalesCalculator2 {
 			}
 		}
 
-		File commodityFile = new File(args[0] +File.separator+ "commodity.lst");
-			if(!commodityFile.exists()) {
+		FileRead = new File(args[0] +File.separator+ "commodity.lst");
+			if(!FileRead.exists()) {
 				System.out.println("商品定義ファイルが存在しません");
 				return;
 			}
@@ -76,7 +77,7 @@ public class SalesCalculator2 {
 		HashMap<String, Long> map4 = new HashMap<String, Long>();
 
 		try {
-			fr = new FileReader(commodityFile);
+			fr = new FileReader(FileRead);
 			br = new BufferedReader(fr);
 			String commodity;
 
@@ -121,7 +122,7 @@ public class SalesCalculator2 {
 			} else{
 			}
 		}
-		//連番処理
+		//連番処理 for文の回数はファイルの数よりひとつ少ないので注意
 		for(int i = 0; i <rcdFiles.size() - 1; i++){
 			String[] numberString = rcdFiles.get(i).getName().split("\\.");
 			int salesNumber1 = Integer.parseInt(numberString[0]);
@@ -155,7 +156,7 @@ public class SalesCalculator2 {
 				}
 				//売上ファイルの行数が3行以上または2行以下の場合のエラー処理
 				if(!(salesArray.size() == 3)){
-					System.out.print(rcdFiles.get(i).getName() + "のフォーマットが不正です");
+					System.out.println(rcdFiles.get(i).getName() + "のフォーマットが不正です");
 					return;
 				}
 				//売上ファイルの3行目が数字かどうかの判別
@@ -212,9 +213,10 @@ public class SalesCalculator2 {
 			map4.put(salesArray.get(1), m2);
 			}
 
-	    ArrayList<Map.Entry<String,Long>> entries1 =
-	              new ArrayList<Map.Entry<String,Long>>(map2.entrySet());
-	        Collections.sort(entries1, new Comparator<Map.Entry<String,Long>>() {
+	    ArrayList<Map.Entry<String,Long>> entries;
+
+	    entries = new ArrayList<Map.Entry<String,Long>>(map2.entrySet());
+	        Collections.sort(entries, new Comparator<Map.Entry<String,Long>>() {
 
 	            @Override
 	            public int compare(
@@ -224,15 +226,16 @@ public class SalesCalculator2 {
 	        });
 
 		    //支店別集計ファイルの作成
-			File branchAggregation = new File(args[0] +File.separator+ "branch.out");
+			File Aggregation;
+			Aggregation = new File(args[0] +File.separator+ "branch.out");
 			FileWriter fw = null;
 			BufferedWriter bw = null;
 
 			try {
-				fw = new FileWriter(branchAggregation);
+				fw = new FileWriter(Aggregation);
 				bw = new BufferedWriter(fw);
 
-				for (Entry<String,Long> s : entries1) {
+				for (Entry<String,Long> s : entries) {
 					String p = String.valueOf(s.getKey());
 						bw.write(s.getKey() + ","+ map1.get(p) +","+ s.getValue());
 						bw.newLine();
@@ -259,24 +262,23 @@ public class SalesCalculator2 {
 				}
 			}
 
-		ArrayList<Map.Entry<String,Long>> entries2 =
-	              new ArrayList<Map.Entry<String,Long>>(map4.entrySet());
-	        Collections.sort(entries2, new Comparator<Map.Entry<String,Long>>() {
+		entries = new ArrayList<Map.Entry<String,Long>>(map4.entrySet());
+//	        Collections.sort(entries, new Comparator<Map.Entry<String,Long>>() {
 
-	            @Override
-	            public int compare(
-	                  Entry<String,Long> entry1, Entry<String,Long> entry2) {
-	                return ((Long)entry2.getValue()).compareTo((Long)entry1.getValue());
-	            }
-	    });
+//	            @Override
+//	            public int compare(
+//	                  Entry<String,Long> entry1, Entry<String,Long> entry2) {
+//	                return ((Long)entry2.getValue()).compareTo((Long)entry1.getValue());
+//	            }
+
 	      //商品別集計ファイルの作成
-	        File commodityAggregation = new File(args[0] +File.separator+ "commodity.out");
+	        Aggregation = new File(args[0] +File.separator+ "commodity.out");
 
 			try {
-				fw = new FileWriter(commodityAggregation);
+				fw = new FileWriter(Aggregation);
 				bw = new BufferedWriter(fw);
 
-				for (Entry<String,Long> s : entries2) {
+				for (Entry<String,Long> s : entries) {
 					String p = String.valueOf(s.getKey());
 						bw.write(s.getKey() + ","+ map3.get(p) +","+ s.getValue());
 						bw.newLine();
