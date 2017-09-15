@@ -42,8 +42,9 @@ public class SalesCalculator2 {
 				int b = item1.length;
 				if(b != 2){
 					System.out.println("支店定義ファイルのフォーマットが不正です");
+					return;
 				}
-				if(item1[0].matches("[0-9]{3}") && item1[1].matches(".*支店")){
+				if(item1[0].matches("[0-9]{3}")){
 					map1.put(item1[0] , item1[1]);
 					map2.put(item1[0], (long)0);
 				} else {
@@ -84,7 +85,8 @@ public class SalesCalculator2 {
 				int b = item2.length;
 
 				if(b != 2){
-					System.out.println("支店定義ファイルのフォーマットが不正です");
+					System.out.println("商品定義ファイルのフォーマットが不正です");
+					return;
 				}
 				if(item2[0].matches("[a-zA-Z0-9]{8}")){
 				map3.put(item2[0], item2[1]);
@@ -154,20 +156,22 @@ public class SalesCalculator2 {
 
 					//}
 					counter++;
-					//売上げファイルの行数が3行以上または2行以下の場合のエラー処理
+					//売上ファイルの行数が3行以上または2行以下の場合のエラー処理
 					if(counter > 3){
-						System.out.print(rcdFiles.get(i) + "のフォーマットが不正です");
+						System.out.print(rcdFiles.get(i).getName() + "のフォーマットが不正です");
 						return;
 					}
 				}
-				if(salesArray.get(2).matches("[0-9]")){
-					System.out.println(rcdFiles.get(i) + "のフォーマットが不正です");
+				//売上ファイルの3行目が数字かどうかの判別
+				if(!salesArray.get(2).matches("^[0-9]+$")){
+					System.out.println(rcdFiles.get(i).getName() + "のフォーマットが不正です");
+					return;
 				}
-				if(!map1.containsKey(salesArray.get(0))){
+				if(!(map1.containsKey(salesArray.get(0)))){
 					System.out.println(rcdFiles.get(i).getName() + "の支店コードが不正です");
 					return;
 				}
-				if(!map3.containsKey(salesArray.get(1))){
+				if(!(map3.containsKey(salesArray.get(1)))){
 					System.out.println(rcdFiles.get(i).getName() + "の商品コードが不正です");
 					return;
 				}
@@ -185,6 +189,7 @@ public class SalesCalculator2 {
 		            }
 				}
 			}
+
 			//支店コード別に売上げ金額を加算する処理
 			long k = Long.parseLong(salesArray.get(2));
 			long l1 = map2.get(salesArray.get(0));
@@ -204,7 +209,7 @@ public class SalesCalculator2 {
 			String ms2 = String.valueOf(m2);
 
 			//商品別集計合計金額が10桁を越えた場合の処理
-			if(ms2.matches("[0-9]{11}")){
+			if(ms2.matches("[0-9]{11,}")){
 				System.out.println("合計金額が10桁を超えました");
 				return;
 			}
