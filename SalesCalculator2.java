@@ -39,9 +39,13 @@ public class SalesCalculator2 {
 
 			while((branch = br.readLine()) != null) {
 				String[] item1 = branch.split(",");
-				if(item1[0].matches("[0-9]{3}")){
-				map1.put(item1[0] , item1[1]);
-				map2.put(item1[0], (long)0);
+				int b = item1.length;
+				if(b != 2){
+					System.out.println("支店定義ファイルのフォーマットが不正です");
+				}
+				if(item1[0].matches("[0-9]{3}") && item1[1].matches(".*支店")){
+					map1.put(item1[0] , item1[1]);
+					map2.put(item1[0], (long)0);
 				} else {
 					System.out.println("支店定義ファイルのフォーマットが不正です");
 					return;
@@ -77,6 +81,11 @@ public class SalesCalculator2 {
 
 			while((commodity =br.readLine()) != null) {
 				String[] item2 = commodity.split(",");
+				int b = item2.length;
+
+				if(b != 2){
+					System.out.println("支店定義ファイルのフォーマットが不正です");
+				}
 				if(item2[0].matches("[a-zA-Z0-9]{8}")){
 				map3.put(item2[0], item2[1]);
 				map4.put(item2[0], (long)0);
@@ -105,7 +114,7 @@ public class SalesCalculator2 {
 		ArrayList<File> rcdFiles = new ArrayList<File>();
 
 		for (int i = 0; i < files.length; i++){
-			if(files[i].getName().matches("^[0-9]{8}.*rcd$") && files[i].isFile()){
+			if(files[i].getName().matches("^[0-9]{8}.rcd$") && files[i].isFile()){
 				rcdFiles.add(files[i]);
 			} else{
 			}
@@ -119,7 +128,7 @@ public class SalesCalculator2 {
 			int salesNumber2 = Integer.parseInt(numberString[0]);
 
 			if(salesNumber2 - salesNumber != 1){
-				System.out.println("売上げファイルが連番になっていません");
+				System.out.println("売上ファイル名が連番になっていません");
 				return;
 			}
 
@@ -151,12 +160,15 @@ public class SalesCalculator2 {
 						return;
 					}
 				}
+				if(salesArray.get(2).matches("[0-9]")){
+					System.out.println(rcdFiles.get(i) + "のフォーマットが不正です");
+				}
 				if(!map1.containsKey(salesArray.get(0))){
-					System.out.println(rcdFiles.get(i) + "の支店コードが不正です");
+					System.out.println(rcdFiles.get(i).getName() + "の支店コードが不正です");
 					return;
 				}
 				if(!map3.containsKey(salesArray.get(1))){
-					System.out.println(rcdFiles.get(i) + "の支店コードが不正です");
+					System.out.println(rcdFiles.get(i).getName() + "の商品コードが不正です");
 					return;
 				}
 
@@ -180,7 +192,7 @@ public class SalesCalculator2 {
 			String ms1 = String.valueOf(m1);
 
 			//支店別集計合計金額が10桁を越えた場合の処理
-			if(ms1.matches("[0-9]{10}")){
+			if(ms1.matches("[0-9]{11,}")){
 				System.out.println("合計金額が10桁を超えました");
 				return;
 			}
