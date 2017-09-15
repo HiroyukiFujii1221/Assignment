@@ -124,12 +124,12 @@ public class SalesCalculator2 {
 		//連番処理
 		for(int i = 0; i <rcdFiles.size() - 1; i++){
 			String[] numberString = rcdFiles.get(i).getName().split("\\.");
-			int salesNumber = Integer.parseInt(numberString[0]);
+			int salesNumber1 = Integer.parseInt(numberString[0]);
 
 			numberString = rcdFiles.get(i + 1).getName().split("\\.");
 			int salesNumber2 = Integer.parseInt(numberString[0]);
 
-			if(salesNumber2 - salesNumber != 1){
+			if(salesNumber2 - salesNumber1 != 1){
 				System.out.println("売上ファイル名が連番になっていません");
 				return;
 			}
@@ -149,7 +149,7 @@ public class SalesCalculator2 {
 				//rcdFilesはリスト型でもっている状態なので、getメソッドを使う
 				fr = new FileReader(rcdFiles.get(i));
 				br = new BufferedReader(fr);
-				int counter = 0;
+
 				while((line = br.readLine()) != null){
 					salesArray.add(line);
 				}
