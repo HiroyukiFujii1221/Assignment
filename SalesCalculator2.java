@@ -150,21 +150,17 @@ public class SalesCalculator2 {
 				fr = new FileReader(rcdFiles.get(i));
 				br = new BufferedReader(fr);
 				int counter = 0;
-				while(counter < 3){
-					line = br.readLine();
+				while((line = br.readLine()) != null){
 					salesArray.add(line);
-
-					//}
-					counter++;
-					//売上ファイルの行数が3行以上または2行以下の場合のエラー処理
-					if(counter > 3){
-						System.out.print(rcdFiles.get(i).getName() + "のフォーマットが不正です");
-						return;
-					}
+				}
+				//売上ファイルの行数が3行以上または2行以下の場合のエラー処理
+				if(!(salesArray.size() == 3)){
+					System.out.print(rcdFiles.get(i).getName() + "のフォーマットが不正です");
+					return;
 				}
 				//売上ファイルの3行目が数字かどうかの判別
 				if(!salesArray.get(2).matches("^[0-9]+$")){
-					System.out.println(rcdFiles.get(i).getName() + "のフォーマットが不正です");
+					System.out.println("予期せぬエラーが発生しました");
 					return;
 				}
 				if(!(map1.containsKey(salesArray.get(0)))){
